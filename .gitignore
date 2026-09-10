@@ -1,2 +1,14 @@
+# Variáveis de ambiente
 *.env
-__pycache__
+!variaveis.env.example
+
+# Python
+__pycache__/
+*.pyc
+
+# VSCode
+.vscode/
+
+# Sistema
+.DS_Store
+Thumbs.db
