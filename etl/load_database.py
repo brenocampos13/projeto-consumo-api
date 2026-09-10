@@ -5,11 +5,11 @@ def load_database():
 
     cursor.execute(
         """
-            SELECT
-                *
-            FROM
-                api_projeto.raw
-            ;
+        SELECT
+            *
+        FROM
+            api_projeto.raw
+        ;
         """
     )
 
