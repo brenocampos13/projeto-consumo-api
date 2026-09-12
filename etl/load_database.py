@@ -1,21 +1,34 @@
+from psycopg2.extras import Json
 from config import get_connection
 
-def load_database():
-    cursor = get_connection()
+def load_database(dados):
+    conn = get_connection()
 
-    cursor.execute(
-        """
-        SELECT
-            *
-        FROM
-            api_projeto.raw
-        ;
-        """
+    cursor = conn.cursor()
+
+    sql = """
+    INSERT INTO api_projeto.raw_api(
+        endpoint,
+        payload
+    )
+    VALUES (
+        %s,
+        %s
+    )
+    ;
+    """
+
+    valores = (
+        "viacep",
+        Json(dados)
     )
 
-    retorno_db = cursor.fetchall()
+    cursor.execute(sql, valores)
 
-    print(retorno_db)
+    conn.commit()
+
+    cursor.close()
+    conn.close()
 
 if __name__ == "__main__":
     load_database()

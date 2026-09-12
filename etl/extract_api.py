@@ -10,7 +10,3 @@ def get_dados(cep):
     dados = response.json()
 
     return dados
-
-dados = get_dados("14055494")
-
-print(dados)

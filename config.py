@@ -14,6 +14,4 @@ def get_connection():
         database=os.getenv("DB_DATABASE")
     )
 
-    cursor = conn.cursor()
-
-    return cursor
+    return conn
