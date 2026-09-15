@@ -15,7 +15,9 @@ def extract_raw_db():
     )
 
     dados = cursor.fetchall()
+
     print(dados)
+
     return dados
 
 def transform_json_db(dados):

@@ -1,5 +1,5 @@
 from etl.extract_api import get_dados
-from etl.load_database import load_database, ver_ceps, truncate
+from etl.load_database import load_database
 from etl.etl_json_db import pipeline_raw_dim_json
 
 def main():
