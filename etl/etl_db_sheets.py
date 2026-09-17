@@ -1,4 +1,4 @@
-from config import get_connection
+from config import get_connection, get_sheet
 import gspread
 from google.oauth2.service_account import Credentials
 
@@ -13,7 +13,7 @@ def extract_dim_cep():
             SELECT
                 *
             FROM
-                api_projeto.raw_api
+                api_projeto.dim_cep
             ;
         """
     )
@@ -24,38 +24,56 @@ def extract_dim_cep():
 
     conn.close()
 
+    print(dados)
+
     return dados
 
-def get_sheet():
+def transform_dim_cep(dados):
 
-    scopes = [
-        "https://www.googleapis.com/auth/spreadsheets",
-        "https://www.googleapis.com/auth/drive"
+    lista = []
+
+    for registro in dados:
+        lista.append(list(registro))
+
+    print(lista)
+
+    return lista
+
+def load_sheet(lista):
+
+    cabecalho = [
+        [
+        "UF",
+        "CEP",
+        "DDD",
+        "Gia",
+        "IBGE",
+        "Siafi",
+        "Bairro",
+        "Estado",
+        "Regiao",
+        "Unidade",
+        "Localidade",
+        "Logradouro",
+        "Complemento"
+        ]
     ]
 
-    credentials = Credentials.from_service_account_file(
-        "credentials.json",
-        scopes=scopes
-    )
-
-    client = gspread.authorize(credentials)
-
-    spreadsheet = client.open("PROJETO API")
-
-    worksheet = spreadsheet.worksheet("dim_cep")
-
-    return worksheet
-
-def load_sheet():
     sheet = get_sheet()
+
 
     sheet.update(
         "A1",
-        [
-            ["cep", "cidade"],
-            ["14055-494", "Ribeirão Preto"],
-            ["14060-556", "Ribeirão Preto"]
-        ]
+        cabecalho + lista
     )
 
-load_sheet()
+def pipeline_db_sheets():
+
+    dados = extract_dim_cep()
+
+    registros = transform_dim_cep(dados)
+
+    load_sheet(registros)
+
+if __name__ == "__main__":
+    pipeline_db_sheets()

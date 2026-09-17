@@ -36,10 +36,6 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin/data
 
-    depends_on:
-      postgres:
-        condition: service_healthy
-
   etl_app:
     build: .
 

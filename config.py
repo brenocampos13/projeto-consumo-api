@@ -1,6 +1,8 @@
 import psycopg2
 import os
 from dotenv import load_dotenv
+import gspread
+from google.oauth2.service_account import Credentials
 
 
 load_dotenv("variaveis.env")
@@ -15,3 +17,23 @@ def get_connection():
     )
 
     return conn
+
+def get_sheet():
+
+    scopes = [
+        "https://www.googleapis.com/auth/spreadsheets",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
+    credentials = Credentials.from_service_account_file(
+        "credentials.json",
+        scopes=scopes
+    )
+
+    client = gspread.authorize(credentials)
+
+    spreadsheet = client.open("PROJETO API")
+
+    worksheet = spreadsheet.worksheet("dim_cep")
+
+    return worksheet
