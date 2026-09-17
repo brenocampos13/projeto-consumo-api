@@ -1,9 +1,10 @@
 from etl.extract_api import get_dados
 from etl.load_database import load_database
 from etl.etl_json_db import pipeline_raw_dim_json
+from etl.etl_db_sheets import extract_dim_cep
 
 def main():
-
+    
     print("Iniciando consumo de API...")
 
     dados = get_dados()

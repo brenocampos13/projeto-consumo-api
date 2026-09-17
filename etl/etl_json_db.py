@@ -16,8 +16,10 @@ def extract_raw_db():
 
     dados = cursor.fetchall()
 
-    print(dados)
+    cursor.close()
 
+    conn.close()
+    
     return dados
 
 def transform_json_db(dados):
@@ -44,8 +46,6 @@ def transform_json_db(dados):
             payload.get("complemento")
             )
         )
-    for e in linhas:
-        print(e)
 
     return linhas
 
